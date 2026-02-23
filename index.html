@@ -1,1 +1,439 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Andrey Arsavin — Biodata</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --accent: #00e5ff;
+    --accent2: #ff3d71;
+    --text: #e8e8f0;
+    --muted: #6b6b80;
+    --border: rgba(0,229,255,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Background grid */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Glow orb */
+  body::after {
+    content: '';
+    position: fixed;
+    top: -200px;
+    right: -200px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(0,229,255,0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 24px;
+  }
+
+  /* Header */
+  .header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 32px;
+    margin-bottom: 64px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+    background: rgba(0,229,255,0.05);
+  }
+
+  .badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 10vw, 96px);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    background: linear-gradient(135deg, #fff 30%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .avatar-wrap {
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    color: #0a0a0f;
+    position: relative;
+    z-index: 1;
+  }
+
+  .avatar-wrap::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    z-index: 0;
+    animation: rotate 4s linear infinite;
+  }
+
+  .avatar-wrap::after {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, rgba(0,229,255,0.3), rgba(255,61,113,0.3));
+    filter: blur(12px);
+    z-index: 0;
+  }
+
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s ease forwards;
+  }
+
+  /* Cards grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .card:hover::before { opacity: 1; }
+
+  .card-icon {
+    font-size: 28px;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .card-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .card-value {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .card-sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* Stagger animations */
+  .card:nth-child(1) { animation-delay: 0.3s; }
+  .card:nth-child(2) { animation-delay: 0.4s; }
+  .card:nth-child(3) { animation-delay: 0.5s; }
+  .card:nth-child(4) { animation-delay: 0.6s; }
+  .card:nth-child(5) { animation-delay: 0.7s; }
+  .card:nth-child(6) { animation-delay: 0.8s; }
+
+  /* Section */
+  .section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 16px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.9s ease forwards;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .tag {
+    padding: 8px 16px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent);
+    background: rgba(0,229,255,0.05);
+    transition: all 0.2s;
+    cursor: default;
+  }
+
+  .tag:hover {
+    background: rgba(0,229,255,0.15);
+    border-color: var(--accent);
+    transform: scale(1.05);
+  }
+
+  /* Motto */
+  .motto {
+    background: linear-gradient(135deg, rgba(0,229,255,0.05), rgba(255,61,113,0.05));
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+    opacity: 0;
+    animation: fadeUp 0.8s 1.1s ease forwards;
+  }
+
+  .motto-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(24px, 5vw, 40px);
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+  }
+
+  .motto-sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 8px;
+    font-style: italic;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding-top: 48px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    opacity: 0;
+    animation: fadeUp 0.8s 1.3s ease forwards;
+  }
+
+  .footer span {
+    color: var(--accent2);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @media (max-width: 600px) {
+    .header { grid-template-columns: 1fr; }
+    .avatar-wrap { justify-self: start; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <div>
+      <div class="badge">BIODATA SISWA · 2024/2025</div>
+      <h1>Andrey<br>Arsavin</h1>
+    </div>
+    <div class="avatar-wrap">
+      <div class="avatar">AA</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Info Cards -->
+  <div class="grid">
+    <div class="card">
+      <span class="card-icon">🎓</span>
+      <div class="card-label">Kelas</div>
+      <div class="card-value">XI TKJ 1</div>
+      <div class="card-sub">Teknik Komputer & Jaringan</div>
+    </div>
+
+    <div class="card">
+      <span class="card-icon">👤</span>
+      <div class="card-label">Nama Lengkap</div>
+      <div class="card-value">Andrey Arsavin</div>
+      <div class="card-sub">Siswa aktif</div>
+    </div>
+
+    <div class="card">
+      <span class="card-icon">📚</span>
+      <div class="card-label">Jurusan</div>
+      <div class="card-value">TKJ</div>
+      <div class="card-sub">Teknik Komputer & Jaringan</div>
+    </div>
+
+    <div class="card">
+      <span class="card-icon">🏫</span>
+      <div class="card-label">Jenjang</div>
+      <div class="card-value">SMA / SMK</div>
+      <div class="card-sub">Tahun ke-2 (Kelas XI)</div>
+    </div>
+
+    <div class="card">
+      <span class="card-icon">💻</span>
+      <div class="card-label">Bidang Keahlian</div>
+      <div class="card-value">Teknologi Informasi</div>
+      <div class="card-sub">& Komunikasi</div>
+    </div>
+
+    <div class="card">
+      <span class="card-icon">🌟</span>
+      <div class="card-label">Status</div>
+      <div class="card-value">Aktif</div>
+      <div class="card-sub">Tahun Ajaran 2024/2025</div>
+    </div>
+  </div>
+
+  <!-- Skills -->
+  <div class="section">
+    <div class="section-title">Keahlian & Minat</div>
+    <div class="skill-tags">
+      <span class="tag">🌐 Jaringan Komputer</span>
+      <span class="tag">💾 Sistem Operasi</span>
+      <span class="tag">🔧 Hardware & Troubleshooting</span>
+      <span class="tag">🔒 Keamanan Jaringan</span>
+      <span class="tag">⚙️ Konfigurasi Router</span>
+      <span class="tag">🖥️ Administrasi Server</span>
+      <span class="tag">📡 Wireless Network</span>
+      <span class="tag">💡 IT Support</span>
+    </div>
+  </div>
+
+  <!-- Motto -->
+  <div class="motto">
+    <div class="motto-text">"Belajar Hari Ini,<br>Memimpin Masa Depan"</div>
+    <div class="motto-sub">— Andrey Arsavin, XI TKJ 1</div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    Dibuat dengan <span>♥</span> oleh Andrey Arsavin &nbsp;·&nbsp; XI TKJ 1 &nbsp;·&nbsp; <span>2025</span>
+  </div>
+
+</div>
+</body>
+</html>
 
